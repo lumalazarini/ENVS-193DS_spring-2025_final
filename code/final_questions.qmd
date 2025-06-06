@@ -21,6 +21,8 @@ library(here) # file/folder organization
 library(ggeffects) # generating model predictions
 library(gtsummary) # generating summary tables for models
 library(gt)
+library(dplyr)
+library(tidyr)
 
 ```
 
@@ -44,4 +46,73 @@ Post-hoc Tukey HSD tests indicated that fertilizer sources contributed significa
 
 On average, fertilizer sources had the highest nitrogen load ([mean ± CI] kg year⁻¹), while grasslands had the lowest. The effect size (η² = [effect size]) suggests a [small/moderate/large] impact of source type on nitrogen load.
 
+# 2. Data visualization
+
+```{r}
+#reading in data
+sst <- read_csv(here("data", "SST_update2023.csv"))
+```
+## a. Cleaning and summarizing
+```{r}
+#cleaning data
+sst_clean <- sst |>
+  clean_names() |> #clean column names
+  mutate(
+    year = year(date), #extract year from date in new column
+    month = month(date, label = TRUE, abbr = TRUE)  # extract month in new column
+  ) |> 
+  # Group by year and month
+  group_by(year, month) |> 
+   summarise(
+    mean_monthly_sst = mean(temp, na.rm = TRUE), .groups = "drop") |>   # <- replace `sst_c` if needed
+  mutate(
+    year = as.factor(year),
+    month = factor(month, levels = month.abb, ordered = TRUE))
+
+
+```
+
+```{r}
+# Show 5 random rows
+slice_sample(sst_clean, n = 5)
+
+```
+
+```{r}
+# Show structure
+str(sst_clean)
+  
+```
+## b. Visualize the data
+
+```{r}
+# Filter to only include 2018–2023
+sst_subset <- sst_clean |> 
+  filter(year %in% c("2018", "2019", "2020", "2021", "2022", "2023"))
+
+# Create a color gradient from light to dark
+ggplot(sst_subset, 
+       aes(x = month, 
+           y = mean_monthly_sst, 
+           group = year, 
+           color = year)) +
+  geom_line(size = 1) + # first geometry
+  geom_point(size = 2) + # second geometry
+  scale_color_manual(values = scales::seq_gradient_pal("lightblue", "black", "Lab")
+                     (seq(0, 1, length.out = 6))) +
+  labs(
+    x = "Month",
+    y = "Mean monthly sea surface temperature (°C)",
+    color = "Year"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = c(0.1, .7), # legend inside the panel
+    panel.border = element_rect(color = "black", fill = NA), # panel border
+    panel.background = element_rect(fill = "white"), # white background
+    legend.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank() #removing grid lines
+  )
+
+```
 
