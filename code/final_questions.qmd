@@ -24,4 +24,24 @@ library(gt)
 
 ```
 
-3
+
+# 1. Research writing
+
+## a. Transparent statistical methods
+
+In part 1, they used a Pearson's correlation test, since the data is parametric. In part 2, they used an ANOVA test.
+
+
+## b. More information needed
+One additional test my coworker should run is Tukey’s Honest Significant Difference (HSD) test, which allows for pairwise comparisons between nitrogen sources. This would show which specific sources (e.g., fertilizer vs. grasslands) have significantly different nitrogen loads, rather than just indicating that a difference exists overall.
+
+In addition, they should report descriptive and test statistics such as the F-statistic, alpha value, and standard deviations for each source group. These values provide important context about the strength of the overall effect, the threshold for significance, and the variability within each source category, helping readers interpret the results more fully.
+
+## c. Suggestions for rewriting
+We found a statistically significant difference in mean annual nitrogen load among the five nitrogen sources (one-way ANOVA, F = [F-statistic], df = [degrees of freedom], p = 0.02, α = [significance level]).
+
+Post-hoc Tukey HSD tests indicated that fertilizer sources contributed significantly more nitrogen than grasslands and atmospheric deposition (e.g., fertilizer vs. grasslands: difference = [mean diff], 95% CI: [lower, upper] kg year⁻¹).
+
+On average, fertilizer sources had the highest nitrogen load ([mean ± CI] kg year⁻¹), while grasslands had the lowest. The effect size (η² = [effect size]) suggests a [small/moderate/large] impact of source type on nitrogen load.
+
+
