@@ -23,6 +23,9 @@ library(gtsummary) # generating summary tables for models
 library(gt)
 library(dplyr)
 library(tidyr)
+library(scales) # modifying axis labels
+library(ggeffects) # getting model predictions
+library(DHARMa)
 
 ```
 
@@ -178,5 +181,16 @@ model3 <- lm(
   sp~ edge_distance,# formula
   data = nest_boxes,# data frame
 )
+```
+
+## f. Check the diagnostics
+
+```{r model-diagnostics}
+# Plot diagnostics
+par(mfrow = c(2,2))
+plot(model0)
+plot(model1)
+plot(model2)
+plot(model3)
 ```
 
