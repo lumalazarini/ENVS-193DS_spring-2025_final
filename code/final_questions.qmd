@@ -194,3 +194,21 @@ plot(model2)
 plot(model3)
 ```
 
+
+## g. Select the best model
+
+```{r}
+# Compare all models using AICc
+AICc(model0,
+     model1,
+     model2,
+     model3) |> 
+  arrange(AICc)
+```
+
+```{r model-summary}
+summary(model_)
+
+```
+```
+
