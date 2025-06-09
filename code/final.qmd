@@ -1,0 +1,343 @@
+---
+title: "ENVS 193DS Final"
+author: "Luma Lazarini"
+date: "06/5/25"
+format:
+  html:
+    toc: true # use this to display a table of contents
+execute:
+  message: false # use this to make sure messages don't show up
+  warning: false # use this to make sure warnings don't show up
+---
+
+[Github repo link](https://github.com/lumalazarini/ENVS-193DS_spring-2025_final)
+
+# Set up
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse) # general use
+library(here) # file/folder organization
+library(ggeffects) # generating model predictions
+library(gtsummary) # generating summary tables for models
+library(gt)
+library(janitor)
+library(dplyr)
+library(tidyr)
+library(scales) # modifying axis labels
+library(ggeffects) # getting model predictions
+library(DHARMa)
+library(MuMIn)
+
+```
+
+# 1. Research writing
+
+## a. Transparent statistical methods
+
+In part 1, they used a Pearson's correlation test, since the data is parametric. In part 2, they used an ANOVA test.
+
+## b. More information needed
+
+One additional test my coworker should run is Tukey’s Honest Significant Difference (HSD) test, which allows for pairwise comparisons between nitrogen sources. This would show which specific sources (e.g., fertilizer vs. grasslands) have significantly different nitrogen loads, rather than just indicating that a difference exists overall.
+
+In addition, they should report descriptive and test statistics such as the F-statistic, alpha value, and standard deviations for each source group. These values provide important context about the strength of the overall effect, the threshold for significance, and the variability within each source category, helping readers interpret the results more fully.
+
+## c. Suggestions for rewriting
+
+We found a statistically significant difference in mean annual nitrogen load among the five nitrogen sources (one-way ANOVA, F = \[F-statistic\], df = \[degrees of freedom\], p = 0.02, α = \[significance level\]).
+
+Post-hoc Tukey HSD tests indicated that fertilizer sources contributed significantly more nitrogen than grasslands and atmospheric deposition (e.g., fertilizer vs. grasslands: difference = \[mean diff\], 95% CI: \[lower, upper\] kg year⁻¹).
+
+On average, fertilizer sources had the highest nitrogen load (\[mean ± CI\] kg year⁻¹), while grasslands had the lowest. The effect size (η² = \[effect size\]) suggests a \[small/moderate/large\] impact of source type on nitrogen load.
+
+# 2. Data visualization
+
+```{r}
+#reading in data
+sst <- read_csv(here("data", "SST_update2023.csv"))
+```
+
+## a. Cleaning and summarizing
+
+```{r}
+#cleaning data
+sst_clean <- sst |>
+  clean_names() |> #clean column names
+  mutate(
+    year = year(date), #extract year from date in new column
+    month = month(date, label = TRUE, abbr = TRUE)  # extract month in new column
+  ) |> 
+  # Group by year and month
+  group_by(year, month) |> 
+   summarise(
+    mean_monthly_sst = mean(temp, na.rm = TRUE), .groups = "drop") |>   # <- replace `sst_c` if needed
+  mutate(
+    year = as.factor(year),
+    month = factor(month, levels = month.abb, ordered = TRUE))
+
+
+```
+
+```{r}
+# Show 5 random rows
+slice_sample(sst_clean, n = 5)
+
+```
+
+```{r}
+# Show structure
+str(sst_clean)
+  
+```
+
+## b. Visualize the data
+
+```{r}
+# Filter to only include 2018–2023
+sst_subset <- sst_clean |> 
+  filter(year %in% c("2018", "2019", "2020", "2021", "2022", "2023"))
+
+# Create a color gradient from light to dark
+ggplot(sst_subset, 
+       aes(x = month, 
+           y = mean_monthly_sst, 
+           group = year, 
+           color = year)) +
+  geom_line(size = 1) + # first geometry
+  geom_point(size = 2) + # second geometry
+  scale_color_manual(values = scales::seq_gradient_pal("lightblue", "black", "Lab")
+                     (seq(0, 1, length.out = 6))) +
+  labs(
+    x = "Month",
+    y = "Mean monthly sea surface temperature (°C)",
+    color = "Year"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = c(0.1, .7), # legend inside the panel
+    panel.border = element_rect(color = "black", fill = NA), # panel border
+    panel.background = element_rect(fill = "white"), # white background
+    legend.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank() #removing grid lines
+  )
+
+```
+
+# 3. Data analysis
+
+```{r}
+#reading in data
+nest_boxes <- read_csv(here("data", "occdist.csv")) |> 
+  clean_names() #cleaning column names
+
+```
+
+## a. Response variable
+
+In this dataset, 1s mean that a swift parrot was the species in the nest boxes, while 0s mean that another species was occupying the nest boxes.
+
+## b. Purpose of study
+
+Swift parrots are the target species, which are at critically risk of extinction. The other two species, the Common Starlings and Tree Martins, are non-target species that may compete with Swift Parrots for nesting sites.
+
+## c. Difference in “seasons”
+
+These two years (2016 and 2019) are referred to as seasons because they represent Swift Parrot breeding years triggered by mast flowering events. They are different because in 2016, nest boxes were newly installed, while in 2019 the same boxes were reused to compare nest box occupancy across time and assess whether permanent nest boxes benefit Swift Parrots or attract non-target species.
+
+## d. Table of models
+
+| Model number | Season | Distance to f/e | Description                |
+|:------------:|:------:|:---------------:|:---------------------------|
+|      0       |   No   |       No        | Null model                 |
+|      1       |  Yes   |       Yes       | Saturated model            |
+|      2       |  Yes   |       No        | only season as predictor   |
+|      3       |   No   |       Yes       | only distance as predictor |
+
+## e. Run the models
+
+```{r model-fitting}
+## Model fitting
+
+# model 0: null model
+model0 <- lm(
+  sp ~ 1, # formula
+  data = nest_boxes,# data frame
+)
+
+# model 1: all predictors (saturated model)
+model1 <- lm(
+  sp ~ season + edge_distance, # formula
+  data = nest_boxes,# data frame
+)
+
+# model 2: season only
+model2 <- lm(
+  sp ~ season, # formula
+  data = nest_boxes,# data frame
+)
+
+# model 3: distance only
+model3 <- lm(
+  sp~ edge_distance,# formula
+  data = nest_boxes,# data frame
+)
+```
+
+## f. Check the diagnostics
+
+```{r model-diagnostics}
+# Plot diagnostics
+par(mfrow = c(2,2))
+plot(model0)
+plot(model1)
+plot(model2)
+plot(model3)
+```
+
+
+## g. Select the best model
+
+```{r}
+# Compare all models using AICc
+AICc(model0,
+     model1,
+     model2,
+     model3) |> 
+  arrange(AICc)
+```
+
+```{r model-summary}
+summary(model1)
+
+```
+## h. Visualize the model predictions
+```{r model-predictions}
+model1_predictions <- ggpredict(
+  model1, # model object
+  terms = c("season", "edge_distance") # predictors
+) |> 
+  # treating this like a regular data frame
+  # renaming the columns
+  rename(edge_distance= x,
+         season= group)
+```
+
+
+```{r final-figure}
+#maybe
+nest_boxes_clean <- nest_boxes |> 
+   mutate(sp = as_factor(sp)) |> 
+  mutate(season = as_factor(season))
+
+# Set custom colors
+season_colors <- c("2016" = "magenta", "2019" = "blue")
+
+# Plot with predictions and raw data
+ggplot() +
+  # Raw data points
+  geom_jitter(data = nest_boxes,
+              aes(x = edge_distance,
+                  y = sp,
+                  color = factor(season)),
+              alpha = 0.5,
+              width = 0,
+              height = 0.05,
+              size = 1.2) +
+  
+  # Model predictions with confidence ribbon
+  geom_ribbon(data = model1_predictions,
+              aes(x = edge_distance,
+                  ymin = conf.low,
+                  ymax = conf.high,
+                  fill = season),
+              alpha = 0.3) +
+  
+  geom_line(data = model1_predictions,
+            aes(x = edge_distance,
+                y = predicted,
+                color = season),
+            size = 1.1) +
+  
+  # Customize colors
+  scale_color_manual(values = season_colors) +
+  scale_fill_manual(values = season_colors) +
+  
+  # Labels
+  labs(
+    x = "Distance to Forest Edge (meters)",
+    y = "Swift Parrot Nest Box Occupancy Probability",
+    title = "Model Predictions of Swift Parrot Occupancy"
+  ) +
+  
+  # Clean theme
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(), # remove gridlines
+    plot.title = element_text(face = "bold", size = 14),
+    legend.title = element_blank()
+  )
+```
+```{r}
+
+# Plot using geom_pointrange
+ggplot() +
+  # Raw data
+  geom_jitter(data = nest_boxes,
+              aes(x = season, 
+                  y = sp, 
+                  color = season),
+              width = 0.2, 
+              height = 0.02, 
+              alpha = 0.5, 
+              size = 2) +
+
+  # Model prediction and CI
+  geom_pointrange(data = model1_predictions,
+                  aes(x = season, 
+                      y = predicted, 
+                      ymin = conf.low, 
+                      ymax = conf.high, 
+                      color = season),
+                  position = position_nudge(x = 0.1), size = 1) +
+
+  # Custom colors
+  scale_color_manual(values = c("2016" = "#E91E63", "2019" = "#3F51B5")) +
+
+  # Labels and theme
+  labs(
+    title = "Model Predictions of Swift Parrot Occupancy by Season",
+    x = "Season",
+    y = "Swift Parrot Nest Box Occupancy Probability"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "none",
+    plot.title = element_text(face = "bold")
+  )
+```
+
+
+## i. Write a caption for your figure
+
+## j. Calculate model predictions
+
+## k. Interpret your results
+
+# 4. Affective and exploratory visualizations
+
+## a. Comparing visualizations
+
+The exploratory visualization I created in Homework 2 was a much more artistically-based piece. It was a symbolic drawing of a person melting into their phone screen while in class, meant to represent how distracting phones can be even in educational settings. To make it more representative of the data, in Homework 3, I transformed it into a graph of my class schedule, with bars showing my mean screen time for each day of the week.
+
+A similarity that I see is that they are all on the creative side, something that I feel proud of. However, one is more artistic while the other is more data driven. 
+
+My results didn’t show a strong relationship between my two main variables, screen time and minutes in class. In my data visualization, Homework 3 made this lack of relationship more clearly visible, as I had a lot more data compared to Homework 2. The affective and exploratory visualizations were very different in how they illustrated the data.
+
+In week 9, I received feedback from my peers suggesting I decrease the number of bar columns in my graph to just one mean value per day. I implemented this and thought it improved the visualization, making the relationship between days and class time much clearer. I also got feedback to turn my visualization into a digital format, which I was already planning to do, so that aligned with my own goals.
+
+
+## b. Sharing your affective visualization
+Attended section!
+
+
