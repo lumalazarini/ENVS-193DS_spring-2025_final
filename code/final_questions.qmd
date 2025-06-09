@@ -317,5 +317,24 @@ ggplot() +
 
 ## i. Write a caption for your figure
 
-
 ## j. Calculate model predictions
+
+## k. Interpret your results
+
+# 4. Affective and exploratory visualizations
+
+## a. Comparing visualizations
+
+The exploratory visualization I created in Homework 2 was a much more artistically-based piece. It was a symbolic drawing of a person melting into their phone screen while in class, meant to represent how distracting phones can be even in educational settings. To make it more representative of the data, in Homework 3, I transformed it into a graph of my class schedule, with bars showing my mean screen time for each day of the week.
+
+A similarity that I see is that they are all on the creative side, something that I feel proud of. However, one is more artistic while the other is more data driven. 
+
+My results didn’t show a strong relationship between my two main variables, screen time and minutes in class. In my data visualization, Homework 3 made this lack of relationship more clearly visible, as I had a lot more data compared to Homework 2. The affective and exploratory visualizations were very different in how they illustrated the data.
+
+In week 9, I received feedback from my peers suggesting I decrease the number of bar columns in my graph to just one mean value per day. I implemented this and thought it improved the visualization, making the relationship between days and class time much clearer. I also got feedback to turn my visualization into a digital format, which I was already planning to do, so that aligned with my own goals.
+
+
+## b. Sharing your affective visualization
+Attended section!
+
+
