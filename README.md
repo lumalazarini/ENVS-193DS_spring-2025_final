@@ -22,4 +22,4 @@ The code folder contains R scripts and all of the code used for the project. A l
 
 ## Rendered output
 
-The rendered output for this repo is []()
+The rendered output for this repo is [https://lumalazarini.github.io/ENVS-193DS_spring-2025_final//code/final.html]()
