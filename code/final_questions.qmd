@@ -16,16 +16,17 @@ execute:
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse) # general use
-library(janitor) # cleaning data frames
 library(here) # file/folder organization
 library(ggeffects) # generating model predictions
 library(gtsummary) # generating summary tables for models
 library(gt)
+library(janitor)
 library(dplyr)
 library(tidyr)
 library(scales) # modifying axis labels
 library(ggeffects) # getting model predictions
 library(DHARMa)
+library(MuMIn)
 
 ```
 
@@ -207,8 +208,114 @@ AICc(model0,
 ```
 
 ```{r model-summary}
-summary(model_)
+summary(model1)
 
 ```
+## h. Visualize the model predictions
+```{r model-predictions}
+model1_predictions <- ggpredict(
+  model1, # model object
+  terms = c("season", "edge_distance") # predictors
+) |> 
+  # treating this like a regular data frame
+  # renaming the columns
+  rename(edge_distance= x,
+         season= group)
 ```
 
+
+```{r final-figure}
+
+# Set custom colors
+season_colors <- c("2016" = "magenta", "2019" = "blue")
+
+# Plot with predictions and raw data
+ggplot() +
+  # Raw data points
+  geom_jitter(data = nest_boxes,
+              aes(x = edge_distance,
+                  y = sp,
+                  color = factor(season)),
+              alpha = 0.5,
+              width = 0,
+              height = 0.05,
+              size = 1.2) +
+  
+  # Model predictions with confidence ribbon
+  geom_ribbon(data = model1_predictions,
+              aes(x = edge_distance,
+                  ymin = conf.low,
+                  ymax = conf.high,
+                  fill = season),
+              alpha = 0.3) +
+  
+  geom_line(data = model1_predictions,
+            aes(x = edge_distance,
+                y = predicted,
+                color = season),
+            size = 1.1) +
+  
+  # Customize colors
+  scale_color_manual(values = season_colors) +
+  scale_fill_manual(values = season_colors) +
+  
+  # Labels
+  labs(
+    x = "Distance to Forest Edge (meters)",
+    y = "Swift Parrot Nest Box Occupancy Probability",
+    title = "Model Predictions of Swift Parrot Occupancy"
+  ) +
+  
+  # Clean theme
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(), # remove gridlines
+    plot.title = element_text(face = "bold", size = 14),
+    legend.title = element_blank()
+  )
+```
+```{r}
+
+# Plot using geom_pointrange
+ggplot() +
+  # Raw data
+  geom_jitter(data = nest_boxes,
+              aes(x = season, 
+                  y = sp, 
+                  color = season),
+              width = 0.2, 
+              height = 0.02, 
+              alpha = 0.5, 
+              size = 2) +
+
+  # Model prediction and CI
+  geom_pointrange(data = model1_predictions,
+                  aes(x = season, 
+                      y = predicted, 
+                      ymin = conf.low, 
+                      ymax = conf.high, 
+                      color = season),
+                  position = position_nudge(x = 0.1), size = 1) +
+
+  # Custom colors
+  scale_color_manual(values = c("2016" = "#E91E63", "2019" = "#3F51B5")) +
+
+  # Labels and theme
+  labs(
+    title = "Model Predictions of Swift Parrot Occupancy by Season",
+    x = "Season",
+    y = "Swift Parrot Nest Box Occupancy Probability"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "none",
+    plot.title = element_text(face = "bold")
+  )
+```
+
+
+## i. Write a caption for your figure
+
+
+## j. Calculate model predictions
