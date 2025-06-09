@@ -2,9 +2,10 @@
 title: "ENVS 193DS Final"
 author: "Luma Lazarini"
 date: "06/5/25"
-format:
-  html:
-    toc: true # use this to display a table of contents
+output:
+  html_document:
+    toc: true
+    toc_float: true
 execute:
   message: false # use this to make sure messages don't show up
   warning: false # use this to make sure warnings don't show up
@@ -277,46 +278,6 @@ ggplot() +
     legend.title = element_blank()
   )
 ```
-```{r}
-
-# Plot using geom_pointrange
-ggplot() +
-  # Raw data
-  geom_jitter(data = nest_boxes,
-              aes(x = season, 
-                  y = sp, 
-                  color = season),
-              width = 0.2, 
-              height = 0.02, 
-              alpha = 0.5, 
-              size = 2) +
-
-  # Model prediction and CI
-  geom_pointrange(data = model1_predictions,
-                  aes(x = season, 
-                      y = predicted, 
-                      ymin = conf.low, 
-                      ymax = conf.high, 
-                      color = season),
-                  position = position_nudge(x = 0.1), size = 1) +
-
-  # Custom colors
-  scale_color_manual(values = c("2016" = "#E91E63", "2019" = "#3F51B5")) +
-
-  # Labels and theme
-  labs(
-    title = "Model Predictions of Swift Parrot Occupancy by Season",
-    x = "Season",
-    y = "Swift Parrot Nest Box Occupancy Probability"
-  ) +
-  theme_minimal() +
-  theme(
-    panel.grid = element_blank(),
-    legend.position = "none",
-    plot.title = element_text(face = "bold")
-  )
-```
-
 
 ## i. Write a caption for your figure
 
