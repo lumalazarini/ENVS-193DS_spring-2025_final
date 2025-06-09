@@ -130,7 +130,6 @@ ggplot(sst_subset,
 nest_boxes <- read_csv(here("data", "occdist.csv")) |> 
   clean_names() #cleaning column names
 
-
 ```
 
 ## a. Response variable
@@ -225,6 +224,10 @@ model1_predictions <- ggpredict(
 
 
 ```{r final-figure}
+#maybe
+nest_boxes_clean <- nest_boxes |> 
+   mutate(sp = as_factor(sp)) |> 
+  mutate(season = as_factor(season))
 
 # Set custom colors
 season_colors <- c("2016" = "magenta", "2019" = "blue")
