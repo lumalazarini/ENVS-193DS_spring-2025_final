@@ -214,6 +214,7 @@ AICc(model0,
      model3) |> 
   arrange(AICc)
 ```
+The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge_distance as predictors, as determined by Akaike’s Information Criterion (AIC).
 
 ```{r model-summary}
 #summarize best model
@@ -287,7 +288,7 @@ ggplot() +
 ```
 
 ## i. Write a caption for your figure
-Figure 1. This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016.
+Figure 1. This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. Occupancy is coded as 1 when a Swift Parrot was present and 0 when either another species or no bird was present. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016.
 Data source: Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb
 
 ## j. Calculate model predictions

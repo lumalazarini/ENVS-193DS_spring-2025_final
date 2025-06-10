@@ -217,11 +217,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 3
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 1994  Jul               16.3
-2 1988  Jun               13.7
-3 2011  Jan               13.0
-4 2011  Aug               16.0
-5 1991  Feb               14.4</code></pre>
+1 2015  Aug               19.3
+2 1985  Feb               13.2
+3 1989  Sep               16.3
+4 2005  Aug               17.6
+5 1998  Aug               18.6</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -430,6 +430,7 @@ model2  2 236.3744
 model0  1 238.8318</code></pre>
 </div>
 </div>
+<p>The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge_distance as predictors, as determined by Akaike’s Information Criterion (AIC).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summarize best model</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -527,7 +528,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </section>
 <section id="i.-write-a-caption-for-your-figure" class="level2">
 <h2 class="anchored" data-anchor-id="i.-write-a-caption-for-your-figure">i. Write a caption for your figure</h2>
-<p>Figure 1. This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016. Data source: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
+<p>Figure 1. This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. Occupancy is coded as 1 when a Swift Parrot was present and 0 when either another species or no bird was present. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016. Data source: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
 </section>
 <section id="j.-calculate-model-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. Calculate model predictions</h2>
