@@ -159,15 +159,17 @@ These two years (2016 and 2019) are referred to as seasons because they represen
 ## Model fitting
 
 # model 0: null model
-model0 <- lm(
+model0 <- glm(
   sp ~ 1, # formula
   data = nest_boxes,# data frame
+  family= "binomial"
 )
 
 # model 1: all predictors (saturated model)
-model1 <- lm(
+model1 <- glm(
   sp ~ season + edge_distance, # formula
   data = nest_boxes,# data frame
+  family= "binomial"
 )
 
 # model 2: season only
