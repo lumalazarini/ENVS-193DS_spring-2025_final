@@ -2,10 +2,9 @@
 title: "ENVS 193DS Final"
 author: "Luma Lazarini"
 date: "06/5/25"
-output:
-  html_document:
-    toc: true
-    toc_float: true
+format:
+  html:
+    toc: true # use this to display a table of contents
 execute:
   message: false # use this to make sure messages don't show up
   warning: false # use this to make sure warnings don't show up
