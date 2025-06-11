@@ -12,9 +12,11 @@ This repository is for completing the Final exam for ENVS 193DS.
 
 ## Data and file information
 
-The data folder includes two files: - A file called SST_update2023.csv, which contains data used for Problem 2. - A file called occdist.csv, which contains data used for Problem 3.
+The data folder includes two files: 
+- A file called SST_update2023.csv, which contains data used for Problem 2. 
+- A file called occdist.csv, which contains data used for Problem 3.
 
-The code folder contains R scripts and all of the code used for the project. A line graph is created to using ggplot2 to compare monthly sea surface temperature from 2018-2023. Furthermore, the code runs models, generates model predictions, and visualizes data.
+The code folder contains R scripts and all of the code used for the project. A line graph is created to using ggplot2 to compare monthly sea surface temperature from 2018-2023. Furthermore, the code runs models, generates model predictions, and visualizes data for research on nest box occupancy of target species.
 
 ## Rendered output
 
