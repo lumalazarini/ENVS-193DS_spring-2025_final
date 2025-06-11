@@ -112,7 +112,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#affective-and-exploratory-visualizations" id="toc-affective-and-exploratory-visualizations" class="nav-link" data-scroll-target="#affective-and-exploratory-visualizations">4. Affective and exploratory visualizations</a>
   <ul class="collapse">
   <li><a href="#a.-comparing-visualizations" id="toc-a.-comparing-visualizations" class="nav-link" data-scroll-target="#a.-comparing-visualizations">a. Comparing visualizations</a></li>
-  <li><a href="#b.-sharing-your-affective-visualization" id="toc-b.-sharing-your-affective-visualization" class="nav-link" data-scroll-target="#b.-sharing-your-affective-visualization">b. Sharing your affective visualization</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -232,11 +231,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 5 × 3
   year  month mean_monthly_sst
   &lt;fct&gt; &lt;ord&gt;            &lt;dbl&gt;
-1 2020  Apr               14.3
-2 2010  Jan               14.4
-3 2022  Nov               15  
-4 2018  Dec               15.6
-5 1996  Sep               17.9</code></pre>
+1 1985  Jan               13.8
+2 1985  May               13.3
+3 2018  May               13.6
+4 2011  Sep               16.4
+5 2019  Apr               13.7</code></pre>
 </div>
 </div>
 </section>
@@ -430,7 +429,7 @@ model2  2 236.3744
 model0  1 238.8318</code></pre>
 </div>
 </div>
-<p>The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge_distance as predictors, as determined by Akaike’s Information Criterion (AIC).</p>
+<p>The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge distance as predictors, as determined by Akaike’s Information Criterion (AIC).</p>
 </section>
 <section id="h.-visualize-the-model-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="h.-visualize-the-model-predictions">h. Visualize the model predictions</h2>
@@ -503,7 +502,8 @@ model0  1 238.8318</code></pre>
 <section id="i.-write-a-caption-for-your-figure" class="level2">
 <h2 class="anchored" data-anchor-id="i.-write-a-caption-for-your-figure">i. Write a caption for your figure</h2>
 <p>Figure 1. Predicted Swift Parrot nest box occupancy as a function of distance to forest edge in two seasons.</p>
-<p>This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. Occupancy is coded as 1 when a Swift Parrot was present and 0 when either another species or no bird was present. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016. Data source: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
+<p>This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. Occupancy is coded as 1 when a Swift Parrot was present and 0 when either another species or no bird was present. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016.</p>
+<p>Data source: Stojanovic, Dejan et al.&nbsp;(2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird [Dataset]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb</p>
 </section>
 <section id="j.-calculate-model-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="j.-calculate-model-predictions">j. Calculate model predictions</h2>
@@ -554,10 +554,6 @@ edge_distance | Predicted |     95% CI
 <p>A similarity that I see is that they are all on the creative side, something that I feel proud of. However, one is more artistic while the other is more data driven.</p>
 <p>My data analysis results didn’t show a strong relationship between my two main variables, screen time and minutes in class. In my data visualization, Homework 3 made this lack of relationship more clearly visible, as I had a lot more data compared to Homework 2. The affective and exploratory visualizations were very different in how they illustrated the data, so they do not show any patterns.</p>
 <p>In week 9, I received feedback from my peers suggesting I decrease the number of bar columns in my graph to just one mean value per day. I implemented this and thought it improved the visualization, so I decided to keep it because it made the relationship between days and class time much clearer. I also got feedback to turn my visualization into a digital format, which I was already planning to do, so that aligned with my own goals.</p>
-</section>
-<section id="b.-sharing-your-affective-visualization" class="level2">
-<h2 class="anchored" data-anchor-id="b.-sharing-your-affective-visualization">b. Sharing your affective visualization</h2>
-<p>Attended section!</p>
 </section>
 </section>
 

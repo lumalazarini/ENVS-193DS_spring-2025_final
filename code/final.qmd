@@ -214,7 +214,7 @@ AICc(model0,
   arrange(AICc)
 ```
 
-The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge_distance as predictors, as determined by Akaike’s Information Criterion (AIC).
+The best model is Model 1, predicting the probability of Swift Parrot presence with season and edge distance as predictors, as determined by Akaike’s Information Criterion (AIC).
 
 ## h. Visualize the model predictions
 
@@ -286,6 +286,7 @@ ggplot() +
 Figure 1. Predicted Swift Parrot nest box occupancy as a function of distance to forest edge in two seasons.
 
 This figure displays the predicted probability of Swift Parrot nest box occupancy as a function of distance from the forest edge. Results are shown separately for the 2016 (magenta) and 2019 (blue) seasons. Occupancy is coded as 1 when a Swift Parrot was present and 0 when either another species or no bird was present. The plot shows a decline in occupancy probability as distance from the forest edge increases. Additionally, overall occupancy was lower in 2019 than in 2016. 
+
 Data source: Stojanovic, Dejan et al. (2021). Do nest boxes breed the target species or its competitors? A case study of a critically endangered bird \[Dataset\]. Dryad. https://doi.org/10.5061/dryad.83bk3j9sb
 
 ## j. Calculate model predictions
@@ -314,7 +315,3 @@ A similarity that I see is that they are all on the creative side, something tha
 My data analysis results didn’t show a strong relationship between my two main variables, screen time and minutes in class. In my data visualization, Homework 3 made this lack of relationship more clearly visible, as I had a lot more data compared to Homework 2. The affective and exploratory visualizations were very different in how they illustrated the data, so they do not show any patterns.
 
 In week 9, I received feedback from my peers suggesting I decrease the number of bar columns in my graph to just one mean value per day. I implemented this and thought it improved the visualization, so I decided to keep it because it made the relationship between days and class time much clearer. I also got feedback to turn my visualization into a digital format, which I was already planning to do, so that aligned with my own goals.
-
-## b. Sharing your affective visualization
-
-Attended section!
